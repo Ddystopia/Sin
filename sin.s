@@ -1,21 +1,18 @@
 .text
 .global sin_c
 sin_c:
-  movq %xmm0, %rax
-  shrq $63, %rax
-  cvtsi2sdq %rax, %xmm2
+  // x = x - round(x * 1/2pi) * 2pi
   movsd RTAU(%rip), %xmm1
   mulsd %xmm0, %xmm1
-  addsd HALF(%rip), %xmm1
-  subsd %xmm2, %xmm1
-  cvttsd2siq %xmm1, %rax
+  cvtsd2siq %xmm1, %rax
   cvtsi2sdq %rax, %xmm1
   mulsd TAU(%rip), %xmm1
   subsd %xmm1, %xmm0
   movapd %xmm0, %xmm2
-  mulsd %xmm0, %xmm2
   // %xmm0 - x %xmm2 - xx %xmm1 - res
+  mulsd %xmm0, %xmm2
   movsd 13*8+fci(%rip), %xmm1
+  // cycle begin
   mulsd %xmm2, %xmm1
   addsd 12*8+fci(%rip), %xmm1
   mulsd %xmm2, %xmm1

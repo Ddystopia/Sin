@@ -4,6 +4,7 @@
 
 extern double sin_c(double);
 
+
 const double EPSILON = 1e-15;
 void test();
 
@@ -18,17 +19,17 @@ int main(int argc, char** argv) {
 }
 
 void test() {
-  printf("Testing segment [-10; 10] with step 0.01.\n");
+  printf("Testing segment [-10; 10].\n");
   printf("Epsilon: %le\n", EPSILON);
+  // I'm counting on margin of error
   for (double i = -10; i <= 10; i += 0.01) {
-  //for (int n = -1000; n <= 1000; n += 1) {
     double c = sin(i);
     double tested = sin_c(i);
     double diff = fabs(tested - c);
     if (diff > EPSILON) {
       printf("\n\033[1m\033[31mFailed\033[0m\n");
       printf(
-          "N:\t%.2lf\
+          "N:\t%.16lf\
           \nDiff:\t%le\
           \nTested:\t%.29lf\
           \nC:\t%.29lf\n",
